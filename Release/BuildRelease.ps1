@@ -1,7 +1,14 @@
-# IMPORTANT: Make sure that the path to msbuild is correct!  
-$msbuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-if ((Test-Path $msbuild) -eq $false) {
-    Write-Host "Cannot find msbuild at '$msbuild'."
+# Locate MSBuild
+foreach ($dir in (${env:PROGRAMFILES(X86)}, ${env:PROGRAMFILES})) {
+    foreach ($ver in ("14.0", "15.0")) {
+       if ((Test-Path "$dir\MSBuild\$ver\bin\msbuild.exe") -eq $true) {
+            $msbuild = "$dir\MSBuild\$ver\bin\msbuild.exe"
+            Break
+        }
+    }
+}
+if (!$msbuild) {
+    Write-Host "Cannot find msbuild."
     Break
 }
 
