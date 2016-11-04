@@ -28,3 +28,5 @@ Build/Tools/ServerManager.vshost.exe.manifest
 Release/2.*
 Release/nuspec/SharpShell/lib
 Release/nuspec/SharpShellTools/lib
+*.VC.db
+*.opendb
