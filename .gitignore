@@ -26,6 +26,7 @@ SharpShell/.nuget
 SharpShell/ipch/
 *.sdf
 *.opensdf
+[Pp]ackages/
 Build/Tools/ServerManager.vshost.exe.manifest
 Release/nuspec/SharpShell/lib
 Release/nuspec/SharpShellTools/lib
