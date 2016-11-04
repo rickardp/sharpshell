@@ -30,3 +30,4 @@ Release/nuspec/SharpShell/lib
 Release/nuspec/SharpShellTools/lib
 *.VC.db
 *.opendb
+*.dll

@@ -91,7 +91,9 @@
     <EmbeddedResource Include="Actions\Help.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedReferences\SharpShell.dll" />
+    <EmbeddedResource Include="..\..\SharpShell\bin\$(Configuration)\SharpShell.dll">
+      <Link>EmbeddedReferences\SharpShell.dll</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
