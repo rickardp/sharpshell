@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>SharpShell</id>
+        <id>SharpShell-User</id>
         <version>2.2</version>
         <title>SharpShell</title>
-        <authors>Dave Kerr</authors>
-        <owners>Dave Kerr</owners>
-        <projectUrl>https://github.com/dwmkerr/sharpshell</projectUrl>
+        <authors>Dave Kerr, Rickard Lyrenius</authors>
+        <owners>Rickard Lyrenius</owners>
+        <projectUrl>https://github.com/rickardp/sharpshell</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>SharpShell is a framework that lets you build Windows Shell Extensions using the .NET Framework.</description>
-        <summary>SharpShell is a framework that lets you build Windows Shell Extensions using the .NET Framework.</summary>
+        <description>Version of SharpShell that allows per-user installations and baking .reg files.</description>
+        <summary>Version of SharpShell that allows per-user installations and baking .reg files.</summary>
         <copyright>Copyright © Dave Kerr 2014</copyright>
         <tags>Shell,SharpShell,COM,Context Menu,Icon Handler</tags>
         <frameworkAssemblies>
