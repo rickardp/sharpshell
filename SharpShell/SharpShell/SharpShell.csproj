@@ -195,6 +195,9 @@
     <Compile Include="Pidl\PidlManager.cs" />
     <Compile Include="Pidl\ShellId.cs" />
     <Compile Include="ServerRegistration\ClassRegistration.cs" />
+    <Compile Include="ServerRegistration\IRegistryService.cs" />
+    <Compile Include="ServerRegistration\RegFileService.cs" />
+    <Compile Include="ServerRegistration\RegistryService.cs" />
     <Compile Include="ServerRegistration\ShellExtensionType.cs" />
     <Compile Include="ServerRegistration\SpecialRegistryClass.cs" />
     <Compile Include="SharpContextMenu\InvokeCommandInfo.cs" />

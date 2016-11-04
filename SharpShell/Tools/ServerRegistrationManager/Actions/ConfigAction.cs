@@ -20,17 +20,25 @@ namespace ServerRegistrationManager.Actions
         /// </summary>
         /// <param name="outputService">The output service.</param>
         /// <param name="parameters">The parameters.</param>
-        public static void Execute(IOutputService outputService, IEnumerable<string> parameters)
+        /// <param name="asUser">Set configuration only for the local user. If false, set the system-wide configuration.</param>
+        public static void Execute(IOutputService outputService, IList<string> parameters, bool asUser)
         {
-            //  Enumerate the parameters.
-            var parametersList = parameters.ToList();
-
             //  If we have no parameters, we show config.
-            if (parametersList.Any() == false)
+            if (parameters.Any() == false)
                 ShowConfig(outputService);
             else
-                SetConfig(outputService, parametersList);
+                SetConfig(outputService, parameters, asUser);
 
+        }
+
+        /// <summary>
+        /// Executes the action in the scope of all users.
+        /// </summary>
+        /// <param name="outputService">The output service.</param>
+        /// <param name="parameters">The parameters.</param>
+        public static void Execute(IOutputService outputService, IList<string> parameters)
+        {
+            Execute(outputService, parameters, false);
         }
 
         private static void ShowConfig(IOutputService outputService)
@@ -50,7 +58,7 @@ namespace ServerRegistrationManager.Actions
             outputService.WriteMessage(string.Format("Log Path: {0}", config.LogPath));
         }
 
-        private static void SetConfig(IOutputService outputService, List<string> parameters)
+        private static void SetConfig(IOutputService outputService, IList<string> parameters, bool asUser)
         {
             //  We must have a key and value.
             if (parameters.Count != 2)
@@ -82,7 +90,7 @@ namespace ServerRegistrationManager.Actions
                 config.LoggingMode = mode;
 
                 //  Save back to the registry.
-                SystemConfigurationProvider.Save();
+                SystemConfigurationProvider.Save(asUser);
 
                 //  Update the user.
                 outputService.WriteSuccess(string.Format("Set LoggingMode to {0}", mode));
@@ -93,7 +101,7 @@ namespace ServerRegistrationManager.Actions
                 config.LogPath = value;
 
                 //  Save back to the registry.
-                SystemConfigurationProvider.Save();
+                SystemConfigurationProvider.Save(asUser);
 
                 //  Update the user.
                 outputService.WriteSuccess(string.Format("Set LogPath to {0}", value));

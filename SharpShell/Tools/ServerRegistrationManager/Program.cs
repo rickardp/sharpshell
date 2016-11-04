@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ServerRegistrationManager.OutputService;
 
@@ -10,7 +11,7 @@ namespace ServerRegistrationManager
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             //  To keep things simple, we actually include the SharpShell assembly
             //  as a resource in the exe, then we can load it as required from the 
@@ -20,7 +21,8 @@ namespace ServerRegistrationManager
 
             //  Create and run the application, use the ConsoleOutputService for output.
             var app = new Application(new ConsoleOutputService());
-            app.Run(args);
+            var ret = app.Run(args);
+            return ret;
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace SharpShell
 
             //  Register the type, use the operating system architecture to determine
             //  what registration type to perform.
-            DoRegister(type, Environment.Is64BitOperatingSystem ? RegistrationType.OS64Bit : RegistrationType.OS32Bit);
+            DoRegister(type, ServerRegistrationManager.DefaultRegistryService(Environment.Is64BitOperatingSystem ? RegistrationType.OS64Bit : RegistrationType.OS32Bit));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace SharpShell
 
             //  Unregister the type, use the operating system architecture to determine
             //  what registration type to unregister.
-            DoUnregister(type, Environment.Is64BitOperatingSystem ? RegistrationType.OS64Bit : RegistrationType.OS32Bit);
+            DoUnregister(type, ServerRegistrationManager.DefaultRegistryService(Environment.Is64BitOperatingSystem ? RegistrationType.OS64Bit : RegistrationType.OS32Bit));
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace SharpShell
         /// However, this function can also be called manually if needed.
         /// </summary>
         /// <param name="type">The type of object to register, this must be a SharpShellServer derived class.</param>
-        /// <param name="registrationType">Type of the registration.</param>
-        internal static void DoRegister(Type type, RegistrationType registrationType)
+        /// <param name="registry">The registry service used to write to the registry.</param>
+        internal static void DoRegister(Type type, IRegistryService registry)
         {
             //  Get the assoication data.
             var assocationAttributes = type.GetCustomAttributes(typeof(COMServerAssociationAttribute), true)
@@ -74,11 +74,11 @@ namespace SharpShell
             if (assocationAttributes.Any())
             {
                 ServerRegistrationManager.RegisterServerAssociations(
-                    type.GUID, serverType, type.Name, assocationAttributes, registrationType);
+                    type.GUID, serverType, type.Name, assocationAttributes, registry);
             }
 
             //  Execute the custom register function, if there is one.
-            CustomRegisterFunctionAttribute.ExecuteIfExists(type, registrationType);
+            CustomRegisterFunctionAttribute.ExecuteIfExists(type, registry);
         }
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace SharpShell
         /// However, this function can also be called manually if needed.
         /// </summary>
         /// <param name="type">The type of object to unregister, this must be a SharpShellServer derived class.</param>
-        /// <param name="registrationType">Type of the registration to unregister.</param>
-        internal static void DoUnregister(Type type, RegistrationType registrationType)
+        /// <param name="registry">The registry service used to write to the registry.</param>
+        internal static void DoUnregister(Type type, IRegistryService registry)
         {
             //  Get the assoication data.
             var assocationAttributes = type.GetCustomAttributes(typeof(COMServerAssociationAttribute), true)
@@ -101,11 +101,11 @@ namespace SharpShell
             if (assocationAttributes.Any())
             {
                 ServerRegistrationManager.UnregisterServerAssociations(
-                    type.GUID, serverType, type.Name, assocationAttributes, registrationType);
+                    type.GUID, serverType, type.Name, assocationAttributes, registry);
             }
 
             //  Execute the custom unregister function, if there is one.
-            CustomUnregisterFunctionAttribute.ExecuteIfExists(type, registrationType);
+            CustomUnregisterFunctionAttribute.ExecuteIfExists(type, registry);
         }
         
         /// <summary>
