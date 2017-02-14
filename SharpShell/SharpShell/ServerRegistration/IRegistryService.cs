@@ -16,6 +16,12 @@ namespace SharpShell.ServerRegistration
         /// <returns></returns>
         IRegistryKey OpenLocalMachineKey();
 
+        /// <summary>
+        /// Opens the local machine or user key.
+        /// </summary>
+        /// <returns></returns>
+        IRegistryKey OpenRootKey();
+
         bool CanRead { get; }
         RegistrationType RegistrationType { get; }
     }

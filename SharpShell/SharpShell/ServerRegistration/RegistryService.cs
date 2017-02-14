@@ -53,6 +53,12 @@ namespace SharpShell.ServerRegistration
             return Wrap(RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,
                type == RegistrationType.OS64Bit ? RegistryView.Registry64 : RegistryView.Registry32));
         }
+
+        public IRegistryKey OpenRootKey()
+        {
+            return Wrap(RegistryKey.OpenBaseKey(asUser ? RegistryHive.CurrentUser : RegistryHive.LocalMachine,
+               type == RegistrationType.OS64Bit ? RegistryView.Registry64 : RegistryView.Registry32));
+        }
         
         private static RegistryKey OpenClassesRoot(RegistrationType registrationType)
         {

@@ -80,6 +80,11 @@ namespace SharpShell.ServerRegistration
             return new RegistryKeyProxy(this, HKEY_LOCAL_MACHINE);
         }
 
+        public IRegistryKey OpenRootKey()
+        {
+            return new RegistryKeyProxy(this, asUser ? HKEY_CURRENT_USER : HKEY_LOCAL_MACHINE);
+        }
+
         private const string Header = "Windows Registry Editor Version 5.00";
 
         private const string HKEY_CURRENT_USER = nameof(HKEY_CURRENT_USER);

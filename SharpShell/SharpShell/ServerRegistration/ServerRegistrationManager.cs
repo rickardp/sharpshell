@@ -61,7 +61,7 @@ namespace SharpShell.ServerRegistration
                         var assemblyFullName = server.GetType().Assembly.FullName;
                         var className = server.GetType().FullName;
                         var runtimeVersion = server.GetType().Assembly.ImageRuntimeVersion;
-                        var codeBaseValue = server.GetType().Assembly.CodeBase;
+                        var codeBaseValue = new Uri(server.GetType().Assembly.CodeBase).LocalPath;
                         const string threadingModel = "Both";
 
                         //  Register all details at server level.
@@ -812,7 +812,7 @@ namespace SharpShell.ServerRegistration
         private static void ApproveExtension(ISharpShellServer server, IRegistryService registry)
         {
             //  Open the approved extensions key.
-            using (var local = registry.OpenLocalMachineKey())
+            using (var local = registry.OpenRootKey())
             {
                 if (local == null)
                 {
@@ -835,21 +835,22 @@ namespace SharpShell.ServerRegistration
         /// Determines whether an extension is approved.
         /// </summary>
         /// <param name="serverClsid">The server CLSID.</param>
-        /// <param name="registrationType">Type of the registration.</param>
+        /// <param name="registry">The registry service used to write to the registry.</param>
         /// <returns>
         ///   <c>true</c> if the extension is approved; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="System.InvalidOperationException">Failed to open the Approved Extensions key.</exception>
         private static bool IsExtensionApproved(Guid serverClsid, IRegistryService registry)
         {
-            //  Open the approved extensions key.
-            using (var local = registry.OpenLocalMachineKey())
+            // If we cannot read the registry, assume not approved
+            if (!registry.CanRead)
             {
-                // If we cannot read the registry, assume not approved if we can approve it (local machine)
-                if (!registry.CanRead)
-                {
-                    return local != null;
-                }
+                return false;
+            }
+
+            //  Open the approved extensions key.
+            using (var local = registry.OpenRootKey())
+            {
                 if (local == null)
                 {
                     // If the registry service does not have a concept of local machine (i.e. per-user install), we can't approve the extension.
@@ -878,7 +879,7 @@ namespace SharpShell.ServerRegistration
         private static void UnapproveExtension(ISharpShellServer server, IRegistryService registry)
         {
             //  Open the approved extensions key.
-            using (var local = registry.OpenLocalMachineKey())
+            using (var local = registry.OpenRootKey())
             {
                 if (local == null)
                 {
